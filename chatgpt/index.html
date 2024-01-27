@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piggy Bank</title>
+</head>
+<body>
+
+<button id="addCoin1">Add 1 Coin</button>
+<button id="addCoin3">Add 3 Coins</button>
+<button id="addCoin5">Add 5 Coins</button>
+<button id="addCoin10">Add 10 Coins</button>
+
+<div>
+  <h2>Small Piggy Bank</h2>
+  <p id="smallPiggyBankCoins">Coins: 0</p>
+  <p id="smallPiggyBankTotal">Total: 0</p>
+</div>
+
+<div>
+  <h2>Big Piggy Bank</h2>
+  <p id="bigPiggyBankCoins">Coins: 0</p>
+  <p id="bigPiggyBankTotal">Total: 0</p>
+</div>
+
+<script>
+  // Observer pattern implementation
+  class Observer {
+    constructor() {
+      this.subscribers = [];
+    }
+
+    subscribe(callback) {
+      this.subscribers.push(callback);
+    }
+
+    unsubscribe(callback) {
+      this.subscribers = this.subscribers.filter(subscriber => subscriber !== callback);
+    }
+
+    notify(data) {
+      this.subscribers.forEach(subscriber => subscriber(data));
+    }
+  }
+
+  // PiggyBank class
+  class PiggyBank {
+    constructor(limit) {
+      this.limit = limit;
+      this.coins = 0;
+      this.total = 0;
+      this.observer = new Observer();
+    }
+
+    addCoin(value) {
+      if (this.coins + value > this.limit) {
+        throw new Error('Piggy Bank limit exceeded!');
+      }
+
+      this.coins += value;
+      this.total += value;
+      this.observer.notify({ coinValue: value });
+      this.updateDisplay();
+    }
+
+    showCoins() {
+      return this.coins;
+    }
+
+    getTotal() {
+      return this.total;
+    }
+
+    updateDisplay() {
+      console.log(`${this.constructor.name}: Coins: ${this.coins}, Total: ${this.total}`);
+      const coinsElement = document.getElementById(`${this.constructor.name.toLowerCase()}Coins`);
+      const totalElement = document.getElementById(`${this.constructor.name.toLowerCase()}Total`);
+      coinsElement.textContent = `Coins: ${this.coins}`;
+      totalElement.textContent = `Total: ${this.total}`;
+    }
+  }
+
+  // Create instances of PiggyBank
+  const smallPiggyBank = new PiggyBank(100);
+  const bigPiggyBank = new PiggyBank(1000);
+
+  // Subscribe to the coin_added event
+  smallPiggyBank.observer.subscribe(data => console.log(`Small Piggy Bank: Coin added - ${data.coinValue}`));
+  bigPiggyBank.observer.subscribe(data => console.log(`Big Piggy Bank: Coin added - ${data.coinValue}`));
+
+  // Button click handlers
+  document.getElementById('addCoin1').addEventListener('click', () => smallPiggyBank.addCoin(1));
+  document.getElementById('addCoin3').addEventListener('click', () => smallPiggyBank.addCoin(3));
+  document.getElementById('addCoin5').addEventListener('click', () => bigPiggyBank.addCoin(5));
+  document.getElementById('addCoin10').addEventListener('click', () => bigPiggyBank.addCoin(10));
+</script>
+
+</body>
+</html>

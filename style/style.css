@@ -1,0 +1,16 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    margin: 0;
+    height: 100vh;
+}
+.my__ul_list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.myContainer{
+    width: 400px;
+}
+

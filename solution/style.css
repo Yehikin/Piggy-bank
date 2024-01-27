@@ -1,0 +1,45 @@
+@font-face {
+    font-family: Roboto;
+    src: url(../fonts/Roboto/Roboto-Medium.ttf);
+    font-size: 400;
+}
+
+.list {
+    align-items: center;
+    border: solid black 1px;
+    background-color: yellow;
+    max-width: 300px;
+}
+
+.score {
+    padding: 5px 5px 5px 5px;
+}
+
+.total {
+    font-family: Roboto;
+    font-size: 40px;
+}
+
+.points {
+    padding: 0;
+}
+
+.points li {
+    list-style: none;
+    font-family: Roboto;
+    font-size: 30px;
+}
+
+.gray {
+    background-color: rgba(85, 128, 0, 0.657);
+}
+
+.numbers {
+    background-color: yellow;
+    width: 40px;
+    height: 40px;
+}
+
+.add-coin h2 {
+    font-family: Roboto;
+}
